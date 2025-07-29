@@ -217,7 +217,7 @@ const Manager = () => {
 
                       {/* Password Cell */}
                       <td className="group relative text-center py-1 border border-white">
-                        {item.password}
+                        {"*".repeat(item.password.length)}
                         <img
                           onClick={() => {
                             navigator.clipboard.writeText(item.password);
