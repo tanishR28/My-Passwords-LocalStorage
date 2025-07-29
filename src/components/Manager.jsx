@@ -1,22 +1,19 @@
 import React, { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
-import copyLogo from '../assets/copy.svg';
-import eye from '../assets/eye.png';
-import hidden from '../assets/hidden.png';
+import copyLogo from "../assets/copy.svg";
+import eye from "../assets/eye.png";
+import hidden from "../assets/hidden.png";
+
 
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 const Manager = () => {
+  const [isVisible, setIsVisible] = useState(false);
   const [form, setform] = useState({ url: "", username: "", password: "" });
   const [passwordArray, setpasswordArray] = useState([]);
   const handleShowPass = () => {
-    if (passRef.current.src.includes("hidden.png")) {
-      showPassRef.current.type = "text";
-      passRef.current.src = eye;
-    } else {
-      showPassRef.current.type = "password";
-      passRef.current.src =hidden;
-    }
+    setIsVisible(!isVisible);
+    showPassRef.current.type = isVisible ? "password" : "text";
   };
   useEffect(() => {
     let passwords = localStorage.getItem("passwords");
@@ -44,16 +41,16 @@ const Manager = () => {
   }
   const savePassword = () => {
     if (!form.url.trim() || !form.username.trim() || !form.password.trim()) {
-  toast.warn("All fields must be filled to save record.")
-  return;
-}
+      toast.warn("All fields must be filled to save record.");
+      return;
+    }
     if (editId) {
-      let editedPasswordsArr=passwordArray.map((item)=>{
-        return item.id===editId?{...form,id:editId}:item;
-      })
-      setpasswordArray(editedPasswordsArr)
+      let editedPasswordsArr = passwordArray.map((item) => {
+        return item.id === editId ? { ...form, id: editId } : item;
+      });
+      setpasswordArray(editedPasswordsArr);
       setform({ url: "", username: "", password: "" });
-      seteditId("")
+      seteditId("");
       localStorage.setItem("passwords", JSON.stringify(editedPasswordsArr));
     } else {
       let newPasswordsArr = [...passwordArray, { ...form, id: uuidv4() }];
@@ -131,7 +128,11 @@ const Manager = () => {
                 onClick={handleShowPass}
                 className=" cursor-pointer absolute right-5 top-1.5 size-6"
               >
-                <img ref={passRef} src={hidden} alt="showpass" />
+                <img
+                  ref={passRef}
+                  src={isVisible ? eye : hidden}
+                  alt="toggle password"
+                />
               </span>
             </div>
           </div>
@@ -141,7 +142,7 @@ const Manager = () => {
             onClick={savePassword}
             className=" flex justify-center my-5 mt-8 mx-auto border-1 cursor-pointer hover:bg-green-400 active:scale-100 hover:scale-105 transition-all duration-300 border-black rounded-[10px] w-[40%] md:w-[15%] bg-green-500 px-12 py-2 relative"
           >
-            {editId?"Edit":"Save"}
+            {editId ? "Edit" : "Save"}
             <lord-icon
               className="h-0 md:h-[60%] px-1 absolute right-[7%]"
               src="https://cdn.lordicon.com/fjvfsqea.json"
@@ -222,7 +223,7 @@ const Manager = () => {
                             navigator.clipboard.writeText(item.password);
                             copyToast();
                           }}
-                          src={copyLogo} 
+                          src={copyLogo}
                           alt="copy"
                           className="w-4 absolute right-4 top-2 opacity-0 group-hover:opacity-100 transition-transform duration-100 hover:scale-115"
                         />
@@ -250,9 +251,7 @@ const Manager = () => {
                     </tr>
                   );
                 })}
-                
               </tbody>
-              
             </table>
           )}
         </div>
