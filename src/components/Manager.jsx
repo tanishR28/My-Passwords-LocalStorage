@@ -4,7 +4,6 @@ import copyLogo from "../assets/copy.svg";
 import eye from "../assets/eye.png";
 import hidden from "../assets/hidden.png";
 
-
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 const Manager = () => {
@@ -12,9 +11,15 @@ const Manager = () => {
   const [form, setform] = useState({ url: "", username: "", password: "" });
   const [passwordArray, setpasswordArray] = useState([]);
   const handleShowPass = () => {
-    setIsVisible(!isVisible);
-    showPassRef.current.type = isVisible ? "password" : "text";
+    setIsVisible((prev) => {
+      const newVisible = !prev;
+      if (showPassRef.current) {
+        showPassRef.current.type = newVisible ? "text" : "password";
+      }
+      return newVisible;
+    });
   };
+
   useEffect(() => {
     let passwords = localStorage.getItem("passwords");
     if (passwords) {
@@ -119,8 +124,8 @@ const Manager = () => {
                 onChange={handleChangeForm}
                 value={form.password}
                 placeholder="Enter Password"
-                className=" w-full py-1 px-4 border-2 border-green-500 rounded-2xl w-1/4"
-                type="password"
+                className="w-full py-1 px-4 border-2 border-green-500 rounded-2xl"
+                type={isVisible ? "text" : "password"}
                 ref={showPassRef}
                 name="password"
               />
@@ -218,6 +223,7 @@ const Manager = () => {
                       {/* Password Cell */}
                       <td className="group relative text-center py-1 border border-white">
                         {"*".repeat(item.password.length)}
+                        {/* {item.password} */}
                         <img
                           onClick={() => {
                             navigator.clipboard.writeText(item.password);
