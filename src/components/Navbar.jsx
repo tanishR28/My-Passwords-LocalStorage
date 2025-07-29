@@ -1,5 +1,7 @@
 import React, { useState } from "react";
 import Logo from "./Logo";
+import Locked from '../assets/lock.svg';
+import unLocked from '../assets/unlock.svg';
 const Navbar = () => {
   const [hovered, sethovered] = useState(false);
   return (
@@ -8,7 +10,7 @@ const Navbar = () => {
       <div className="flex flex-row-reverse items-center gap-4 mr-2">
         <img
           className="peer w-7 scale-120 "
-          src={hovered ? "unlock.svg" : "lock.svg"}
+          src={hovered ? unLocked : Locked}
           alt="lock"
           onMouseEnter={() => sethovered(true)}
           onMouseLeave={() => sethovered(false)}

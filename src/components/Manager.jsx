@@ -1,5 +1,9 @@
 import React, { useEffect, useRef, useState } from "react";
 import Logo from "./Logo";
+import copyLogo from '../assets/copy.svg';
+import eye from '../assets/eye.png';
+import hidden from '../assets/hidden.png';
+
 import { v4 as uuidv4 } from "uuid";
 import { ToastContainer, toast } from "react-toastify";
 const Manager = () => {
@@ -8,10 +12,10 @@ const Manager = () => {
   const handleShowPass = () => {
     if (passRef.current.src.includes("hidden.png")) {
       showPassRef.current.type = "text";
-      passRef.current.src = "eye.png";
+      passRef.current.src = eye;
     } else {
       showPassRef.current.type = "password";
-      passRef.current.src = "hidden.png";
+      passRef.current.src =hidden;
     }
   };
   useEffect(() => {
@@ -127,7 +131,7 @@ const Manager = () => {
                 onClick={handleShowPass}
                 className=" cursor-pointer absolute right-5 top-1.5 size-6"
               >
-                <img ref={passRef} src="public\hidden.png" alt="showpass" />
+                <img ref={passRef} src={hidden} alt="showpass" />
               </span>
             </div>
           </div>
@@ -190,7 +194,7 @@ const Manager = () => {
                             navigator.clipboard.writeText(item.url);
                             copyToast();
                           }}
-                          src="copy.svg"
+                          src={copyLogo}
                           alt="copy"
                           className="w-4 absolute right-4 top-2 opacity-0 group-hover:opacity-100 transition-transform duration-100 hover:scale-115"
                         />
@@ -204,7 +208,7 @@ const Manager = () => {
                             navigator.clipboard.writeText(item.username);
                             copyToast();
                           }}
-                          src="copy.svg"
+                          src={copyLogo}
                           alt="copy"
                           className="w-4 absolute right-4 top-2 opacity-0 group-hover:opacity-100 transition-transform duration-100 hover:scale-115"
                         />
@@ -218,7 +222,7 @@ const Manager = () => {
                             navigator.clipboard.writeText(item.password);
                             copyToast();
                           }}
-                          src="copy.svg"
+                          src={copyLogo} 
                           alt="copy"
                           className="w-4 absolute right-4 top-2 opacity-0 group-hover:opacity-100 transition-transform duration-100 hover:scale-115"
                         />
